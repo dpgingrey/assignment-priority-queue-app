@@ -1,31 +1,64 @@
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class HomeworkPriorityQueueApp {
+    //holds Homework objects sorted by due date
     private PriorityQueue<Homework> priorityQueue;
 
+    /**
+     * Comparator sorts Homework objects by due date in the priority queue.
+     */
     public HomeworkPriorityQueueApp(){
         priorityQueue = new PriorityQueue<>(new Comparator<Homework>() {
             @Override
             public int compare(Homework h1, Homework h2) {
-                return h1.dueDate.compareTo(h2.dueDate);
+                return h1.getDueDate().compareTo(h2.getDueDate());
             }
         });
     }
 
+    /**
+     *  Makes sure priority queue is always sorted by due date.
+     */
+    public void resortQueue() {
+        List<Homework> sortedList = new ArrayList<>(priorityQueue);
+
+        sortedList.sort(new Comparator<Homework>() {
+            @Override
+            public int compare(Homework h1, Homework h2) {
+                return h1.getDueDate().compareTo(h2.getDueDate());
+            }
+        });
+
+        priorityQueue.clear();              //clear queue
+        priorityQueue.addAll(sortedList);   //add newly sorted queue back
+    }
+
+    /**
+     * Adds assignment to priority queue and sorts.
+     *
+     * @param homeworkName
+     * @param dueDate
+     * @param notes
+     */
     public void addAssignment(String homeworkName, String dueDate, String notes){
         Homework homework = new Homework(homeworkName, dueDate, notes);
         priorityQueue.add(homework);
+        resortQueue();
         System.out.println("\n============================================");
         System.out.println("Your assignment was added!");
         System.out.println("============================================");
         System.out.println(homework + "\n");
     }
 
+    /**
+     * Checks if param date is valid.
+     *
+     * @param date of Homework
+     * @return true if valid, false if not valid
+     */
     public boolean isValidDate(String date){
         try{
             LocalDate.parse(date, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
@@ -35,6 +68,11 @@ public class HomeworkPriorityQueueApp {
         }
     }
 
+    /**
+     * Deletes assignment from priority queue.
+     *
+     * @param name of Homework
+     */
     public void deleteAssignment(String name){
         Homework homeworkToRemove = null;
         for(Homework homework : priorityQueue){
@@ -56,6 +94,11 @@ public class HomeworkPriorityQueueApp {
         }
     }
 
+    /**
+     * Looks up assignment by name and displays it if it is in the priority queue.
+     *
+     * @param searchName name of Homework to lookup
+     */
     public void lookupAssignment(String searchName){
         boolean found = false;
         System.out.println("\n============================================");
@@ -74,6 +117,9 @@ public class HomeworkPriorityQueueApp {
         }
     }
 
+    /**
+     * Displays all assignments in priority queue.
+     */
     public void displayAllAssignments(){
         if(priorityQueue.isEmpty()){
             System.out.println("\nNo assignments to display.\n");
@@ -84,11 +130,13 @@ public class HomeworkPriorityQueueApp {
         System.out.println("All assignments below");
         System.out.println("============================================");
         for(Homework homework : priorityQueue){
-            System.out.println(homework);
-            System.out.println();
+            System.out.println(homework + "\n");
         }
     }
 
+    /**
+     * Main menu of app, allows user to choose options.
+     */
     public void appMain(){
         Scanner kb = new Scanner(System.in);
 
