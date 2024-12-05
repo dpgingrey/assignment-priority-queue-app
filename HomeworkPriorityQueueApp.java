@@ -156,7 +156,7 @@ public class HomeworkPriorityQueueApp {
             int choice = kb.nextInt();
             kb.nextLine();
 
-            if(choice == 1){   // Add assignment choice
+            if(choice == 1){ 
                 System.out.print("\nEnter assignment name: ");
                 String assignmentName = kb.nextLine();
 
