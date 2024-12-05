@@ -2,7 +2,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 /**
- * Stores name, date, and notes for an Assignment.
+ * Stores name, date, and notes for a Homework object.
  *
  * @author Dana Gingrey
  * @version 12/04/24
@@ -14,7 +14,7 @@ public class Homework {
     String assignmentNotes;
 
     /**
-     * Constructor for Homework
+     * Constructor for Homework.
      *
      * @param name of Homework
      * @param date of Homework
